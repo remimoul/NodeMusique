@@ -11,8 +11,10 @@ app.use(express.json());
 
 
 const postMusic = require('./routes/musicRoute');
-//postRoute(app);
-app.use('/music',postMusic);
+app.use('/musics',postMusic);
+
+const voteRoute= require('./routes/voteRoute');
+app.use('/',voteRoute);
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
