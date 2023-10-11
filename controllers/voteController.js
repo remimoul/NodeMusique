@@ -113,3 +113,22 @@ exports.deleteAVotes = async (req,res)=> {
         res.json({ message: "Erreur serveur" });
     }
 };
+
+
+
+exports.calculateTotalVotesOneMusic = async (req, res) => {
+    try {
+        const musicId = req.params.id_music;
+        const votes = await Vote.find({ music_id: musicId });
+
+        let totalVotesMusic = 0;
+        votes.forEach((votes) => {
+            totalVotesMusic += votes.rates;
+        });
+
+        res.json({ total_votes: totalVotesMusic });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: 'Une erreur s\'est produite lors du calcul du total des votes.' });
+    }
+};
