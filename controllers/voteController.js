@@ -25,14 +25,29 @@ exports.createAVotes = async (req,res)=>{
         const music = await Music.findById(req.params.id_music);
         const newVote = new Vote({...req.body, music_id: req.params.id_music});
 
+        // Obtenir la date actuelle
+        const currentDate = new Date().toISOString().slice(0, 10);
+
+        // Obtenir la date de création de la musique
+        const musicDate = music.created_at.toISOString().slice(0, 10);
+
         try {
             const vote = await newVote.save();
-            res.status(201);
-            res.json(vote);
+            // Obtenir la date de création du vote
+            const voteDate = vote.created_at.toISOString().slice(0, 10);
+
+            if (currentDate === voteDate && currentDate === musicDate){
+                res.status(201);
+                res.json(vote);
+            }else{
+                res.json({message : 'Seuls les votes soumis le même jour que la création de la musique sont autorisés.'});
+            }
+
+            console.log(newVote);
         }catch (error){
             res.status(500);
             console.log(error);
-            res.json({message : 'Erreur Serveur (db)'});
+            res.json({message : 'Veuillez donner une note entre 1 et 5 Merci'});
         }
 
 
