@@ -124,9 +124,12 @@ exports.calculateTotalVotesOneMusic = async (req, res) => {
         let totalVotesMusic = 0;
         votes.forEach((votes) => {
             totalVotesMusic += votes.rates;
+
         });
 
-        res.json({ total_votes: totalVotesMusic });
+        const averageVote = totalVotesMusic / votes.length;
+        res.json({ moyenne_vote: averageVote });
+
     } catch (error) {
         console.log(error);
         res.status(500).json({ message: 'Une erreur s\'est produite lors du calcul du total des votes.' });
