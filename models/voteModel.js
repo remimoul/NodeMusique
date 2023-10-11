@@ -11,7 +11,11 @@ let voteSchema = new Schema({
     created_at: {
         type: Date,
         default: Date.now
+    },
+    music_id: {
+        type: String,
     }
+
 
 });
 
